@@ -33,6 +33,18 @@ class StoreBusinessHours(models.Model):
 	start_time_local = models.TimeField()
 	end_time_local = models.TimeField()
 
+class MonitoringReport(models.Model):
+	class ReportStatus(models.TextChoices):
+		RUNNING = 'running'
+		FAILED = 'failed'
+		COMPLETED = 'completed'
+
+	status = models.CharField(
+		choices=ReportStatus.choices,
+		default=ReportStatus.RUNNING,
+		max_length=9
+	) 
+
 
 
 	

@@ -1,13 +1,12 @@
 from django.shortcuts import render
-from .models import StoreStatusDB, StoreTimezoneMapping, StoreBusinessHours
+from .models import StoreStatusDB, StoreTimezoneMapping, StoreBusinessHours, MonitoringReport
+from .utils import get_store_timezone_mapping, get_store_status_mapping, get_store_id_to_business_hours_mapping, get_date
 from django.http import HttpResponse
 from django.db.models import OuterRef, Subquery
 from dateutil import tz
 import datetime
 import bisect
 import pytz
-
-# Create your views here.
 
 class BusinessHour:
 	def __init__(self, start_time, end_time, timezone, day):
@@ -151,3 +150,13 @@ def get_timezone(request):
 		store_id_to_business_hours_mapping[business_hours.store_id].append(business_hours) 
 	print (generate_csv(date, store_status_mapping, store_id_to_business_hours_mapping, store_timezone_mapping))
 	return HttpResponse('Hello')
+
+def trigger_report_generation(request):
+	store_timezone_mapping = get_store_timezone_mapping()
+	store_status_mapping = get_store_status_mapping(store_timezone_mapping)
+	store_id_to_business_hours_mapping = get_store_id_to_business_hours_mapping()
+	date = get_date()
+	print (generate_csv(date, store_status_mapping, store_id_to_business_hours_mapping, store_timezone_mapping))
+	return HttpResponse('Hello')
+
+	
