@@ -43,8 +43,4 @@ class MonitoringReport(models.Model):
 		choices=ReportStatus.choices,
 		default=ReportStatus.RUNNING,
 		max_length=9
-	) 
-
-
-
-	
+	) 	

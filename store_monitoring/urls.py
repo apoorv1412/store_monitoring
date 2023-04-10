@@ -20,5 +20,5 @@ from monitoring import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('trigger_report/', views.trigger_report_generation),
-    path('get_report/<int:id>/', views.get_report)
+    path('get_report/', views.get_report)
 ]
