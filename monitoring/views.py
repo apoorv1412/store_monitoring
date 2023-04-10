@@ -121,36 +121,6 @@ def generate_csv(date, store_status_mapping, store_business_hours, store_timezon
 
 	return res
 
-def get_timezone(request):
-	store_timezone_mapping_objects = StoreTimezoneMapping.objects.all()
-	store_timezone_mapping = {}
-	for store_timezone_mapping_object in store_timezone_mapping_objects: 
-		store_timezone_mapping[store_timezone_mapping_object.store_id] = store_timezone_mapping_object.	timezone_str
-	store_status = StoreStatusDB.objects.all()
-	store_status_mapping = {}
-	from_zone = tz.gettz('UTC')
-	for status in store_status: 
-		if status.store_id not in store_status_mapping: 
-			store_status_mapping[status.store_id] = []
-		timezone = 'America/Chicago'
-		if status.store_id in store_timezone_mapping:
-			timezone = store_timezone_mapping[status.store_id]
-		to_zone = tz.gettz(timezone)
-		local_time = status.timestamp_utc.replace(tzinfo=from_zone).astimezone(to_zone)
-		store_status_mapping[status.store_id].append(Status(local_time, status.status))
-		store_status_mapping[status.store_id].append(Status(status.timestamp_utc, status.status))
-	for store in store_status_mapping:
-		store_status_mapping[store].sort(key=lambda x : x.timestamp)
-	date = datetime.datetime(2023, 1, 24, 12, 23, 0, tzinfo=pytz.UTC)
-	store_business_hours = StoreBusinessHours.objects.all()
-	store_id_to_business_hours_mapping = {}
-	for business_hours in store_business_hours:
-		if business_hours.store_id not in store_id_to_business_hours_mapping:
-			store_id_to_business_hours_mapping[business_hours.store_id] = []
-		store_id_to_business_hours_mapping[business_hours.store_id].append(business_hours) 
-	print (generate_csv(date, store_status_mapping, store_id_to_business_hours_mapping, store_timezone_mapping))
-	return HttpResponse('Hello')
-
 def trigger_report_generation(request):
 	store_timezone_mapping = get_store_timezone_mapping()
 	store_status_mapping = get_store_status_mapping(store_timezone_mapping)
