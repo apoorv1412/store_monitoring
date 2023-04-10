@@ -19,6 +19,6 @@ from monitoring import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('get_report/', views.get_timezone),
-    path('trigger_report/', views.trigger_report_generation)
+    path('trigger_report/', views.trigger_report_generation),
+    path('get_report/<int:id>/', views.get_report)
 ]
