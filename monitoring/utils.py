@@ -106,16 +106,25 @@ def generate_report(date, store_status_mapping, store_business_hours, store_time
 		to_zone = tz.gettz(timezone)
 		end_time = end_time.replace(tzinfo=from_zone).astimezone(to_zone)
 		
+		'''
+		Restaurant stats over the last week in hours
+		'''
 		start_time = date - datetime.timedelta(days=7)
 		uptime, downtime = ExtrapolationStrategy.get_stats_in_minutes(start_time, end_time, store_status, day_to_business_hours_mapping, timezone)
 		report_entry.uptime_last_week = uptime/60
 		report_entry.downtime_last_week = downtime/60
 
+		'''
+		Restaurant stats over the last day in hours
+		'''
 		start_time = date - datetime.timedelta(days=1)
 		uptime, downtime = ExtrapolationStrategy.get_stats_in_minutes(start_time, end_time, store_status, day_to_business_hours_mapping, timezone)
 		report_entry.uptime_last_day = uptime/60
 		report_entry.downtime_last_day = downtime/60
 
+		'''
+		Restaurant stats over the last hour in minutes
+		'''
 		start_time = date - datetime.timedelta(hours=1)
 		uptime, downtime = ExtrapolationStrategy.get_stats_in_minutes(start_time, end_time, store_status, day_to_business_hours_mapping, timezone)
 		report_entry.uptime_last_hour = uptime

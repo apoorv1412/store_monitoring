@@ -1,3 +1,7 @@
+'''
+Task for generating report to be picked by celery
+'''
+
 from celery import shared_task
 from .utils import get_store_timezone_mapping, get_store_status_mapping, get_store_id_to_business_hours_mapping, get_date, generate_report
 from .strategies import EndpointStrategy

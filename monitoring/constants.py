@@ -1,3 +1,7 @@
+'''
+Constants used for the monitoring task.
+'''
+
 import os
 from django.conf import settings
 

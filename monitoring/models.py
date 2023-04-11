@@ -1,5 +1,12 @@
+'''
+Models for the store monitoring task
+'''
+
 from django.db import models
 
+'''
+Store Status
+'''
 class StoreStatusDB(models.Model):
 	class StoreStatus(models.TextChoices):
 		ACTIVE = 'active'
@@ -16,6 +23,9 @@ class StoreStatusDB(models.Model):
 		max_length=6
 	)
 
+'''
+Store timezone
+'''
 class StoreTimezoneMapping(models.Model):
 	store_id = models.CharField(
 		max_length=25,
@@ -25,6 +35,9 @@ class StoreTimezoneMapping(models.Model):
 		max_length=50
 	)
 
+'''
+Store business hours
+'''
 class StoreBusinessHours(models.Model):
 	store_id = models.CharField(
 		max_length=25,
@@ -33,6 +46,9 @@ class StoreBusinessHours(models.Model):
 	start_time_local = models.TimeField()
 	end_time_local = models.TimeField()
 
+'''
+Monitoring report status
+'''
 class MonitoringReport(models.Model):
 	class ReportStatus(models.TextChoices):
 		RUNNING = 'running'

@@ -11,12 +11,19 @@ class ReportForm(forms.Form):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.fields['id'].widget.attrs.update({'type': 'number', 'min': 1})
-
+'''
+Endpoint for triggering the generation of the report. The task is 
+run in the background while the ID is returned to the user for 
+getting the report later. 
+'''
 def trigger_report_generation(request):
 	report_id = create_report_status_entry()
 	generate_report_task.delay(report_id)
 	return HttpResponse(report_id)
 
+'''
+Endpoint for procuring the report
+'''
 def get_report(request):
 	if request.method == 'POST':
 		form = ReportForm(request.POST)
